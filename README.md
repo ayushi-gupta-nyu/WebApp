@@ -1,4 +1,4 @@
-# Team FiveFries Project Repository (NYCityStreet)
+# NYCityStreet
 
 ## Build Status
 
