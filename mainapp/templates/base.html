@@ -1,0 +1,23 @@
+{% extends 'nav.html' %}
+
+
+
+{% block body %}
+
+<div class="breadcrumbs">
+    {% block breadcrumbs %}
+    {% endblock %}
+</div>
+
+<main role="main" class="container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col center-container">
+                
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

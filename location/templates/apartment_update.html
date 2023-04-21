@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<a href="{% url 'search' %}">Search</a>
+<a href="{% url 'location' pk=object.location.id %}">{{ object.location.full_address }}</a>
+<a href="{% url 'apartment' pk=object.location.id apk=object.id %}">
+    {% if object.suite_num %}
+    {{ object.suite_num }}
+    {% else %}
+    #
+    {% endif %}
+</a>
+<span>Edit</span>
+{% endblock %}
+
+
+{% block content %}
+<h2>
+    <div class="col">
+        {{ object.location.full_address }}
+    </div>
+    <div class="col">
+        {% if apt.suite_num %}
+        <span class="badge badge-pill red mr-1 black-text">Suite: {{ object.suite_num }}</span>
+        {% endif %}
+    </div>
+</h2>
+<div class="row">
+    <div class="col-sm-8">
+
+        {% crispy apartment_form %}
+
+    </div>
+    <div class="col-sm-4">
+        {% if object.image %}
+        <img src="{{ object.picture_url }} " class="img-fluid" alt="apartment image" onerror="this.onerror=null; this.src='/static/img/no_img.png'">
+        {% else %}
+        <span>No Image Available</span>
+        {% endif %}
+    </div>
+</div>
+<!-- Modal -->
+<form method="POST" action="{% url 'apartment_delete' pk=object.location.id apk=object.id %}" novalidate>
+    <!-- For some reason this form MUST be placed under the {% crispy apartment_form %} or you will -->
+    <!-- Get CSRF Violations when you try to submit this form -->
+    {% csrf_token %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalTitle">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The apartment will be permenantly removed and will no longer show up in search results or in your
+                        account view.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

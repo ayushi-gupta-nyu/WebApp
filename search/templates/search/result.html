@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if z_results %}
+<h1>Result</h1>
+<ul>
+    {% for result in z_results %}
+    <li>
+    <ul>
+        <li>Zpid: {{ result.zpid }}</li>
+        <li>Address:
+            <ul>
+                <li>Street: {{ result.address.street }}</li>
+                <li>ZIP code: {{ result.address.zipcode }}</li>
+            </ul>
+        </li>
+        <li>Rent:
+            <ul>
+                <li>Price: {{ result.estimated_rent_price_for_display}}</li>
+                <li>Update-time: {{ result.last_estimated }}</li>
+            </ul>
+        </li>
+    </ul>
+    </li>
+    {% empty %}
+        <li>No house to rent in this area yet.</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% if cl_results %}
+
+{% endif %}
+{% endblock %}
